@@ -12,7 +12,7 @@ import {
 
 const TaskList = ({ tasks, setTasks }) => {
   const [loading, setLoading] = useState(false);
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para o termo de busca
+  const [searchTerm, setSearchTerm] = useState("");
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -39,12 +39,11 @@ const TaskList = ({ tasks, setTasks }) => {
       updatedTasks[currentIndex],
     ];
 
-    // Atualizar estado local
     setTasks(
       updatedTasks.map((task, index) => ({ ...task, ordem: index + 1 }))
     );
 
-    // Sincronizar com o back-end
+    // Sincronização com o back-end
     try {
       await axios.put("http://localhost:5000/tarefas/reorder", {
         tasks: updatedTasks.map((task) => ({
@@ -66,7 +65,6 @@ const TaskList = ({ tasks, setTasks }) => {
     task.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Calcula as tarefas pendentes e concluídas
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter((task) => task.concluida).length;
   const pendingTasks = totalTasks - completedTasks;
@@ -105,7 +103,7 @@ const TaskList = ({ tasks, setTasks }) => {
               key={task.id}
               task={task}
               onTaskUpdate={fetchTasks}
-              onMove={handleMove} // Passando a função correta aqui
+              onMove={handleMove}
             />
           ))}
         </List>
